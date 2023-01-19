@@ -1,6 +1,5 @@
 package com.idt.client
 
-import android.app.ActivityManager
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
@@ -10,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -42,10 +42,15 @@ class MainActivity : AppCompatActivity() {
             }
 
             Log.d(TAG, "Sending message to service")
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("key", "123")
+            intent.putExtra("key2", "1234")
+            val bundle:Bundle = intent.extras!!
             requestMessenger?.send(
-                Message.obtain().apply {
-                    replyTo = receiveMessenger
-                }
+                    Message.obtain().apply {
+                        data = bundle
+                        replyTo = receiveMessenger
+                    }
             )
         }
 
